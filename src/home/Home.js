@@ -36,10 +36,8 @@ class Home extends Component {
 
             axios.post(urlUpdate, JSON.stringify(body), {
                 headers: {
-                    'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'withCredentials': false,
-                    'User-Agent': 'PostmanRuntime/7.31.3',
                     'Authorization': 'Bearer ' + properties.key
                 },
             }).then((resp) => {
