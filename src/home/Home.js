@@ -43,7 +43,7 @@ class Home extends Component {
             }).then((resp) => {
                 let ans = this.state.answers
 
-                ans = ans + '\n\n' + 'You: ' + this.state.message + '\n\n' + 'DataBerry: ' + resp.data.results[0].results[0].text;
+                ans = ans.concat('\n\n','You: ',this.state.message,'\n\n','DataBerry: ',resp.data.results[0].results[0].text);
                 this.questionBox.value = ''
                 
                 this.setState({
