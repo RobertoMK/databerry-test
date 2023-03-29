@@ -9,21 +9,31 @@ class Home extends Component {
         super()
         this.state = {
             message : '',
+            field:'',
             answers : ''
         };
-
-        this.textLog = React.createRef();
-        this.questionBox = React.createRef();
     }
 
-    componentDidUpdate() {
-        this.textLog.current.scrollTop = this.textLog.current.scrollHeight;
-    }
+    componentDidMount() {
+        this.scrollToBottom();
+      }
+    
+      componentDidUpdate() {
+        this.scrollToBottom();
+      }
+    
+      scrollToBottom() {
+        this.el.scrollIntoView({ behavior: 'smooth' });
+      }
 
-    handleClick = (event) => {
+    handleChange = (event) => {
         this.setState({
-            message : event.target.value
+            message : event.target.value,
+            field : event.target.value
         })
+    }
+
+    handleClick = () => {
 
             let body = {
                 queries: [{
@@ -32,9 +42,9 @@ class Home extends Component {
                 }]
             }
 
-            let urlUpdate = properties.server;
+            let url = properties.server;
 
-            axios.post(urlUpdate, JSON.stringify(body), {
+            axios.post(url, JSON.stringify(body), {
                 headers: {
                     'Content-Type': 'application/json',
                     'withCredentials': false,
@@ -42,12 +52,11 @@ class Home extends Component {
                 },
             }).then((resp) => {
                 let ans = this.state.answers
-
-                ans = ans.concat('\n\n','You: ',this.state.message,'\n\n','DataBerry: ',resp.data.results[0].results[0].text);
-                this.questionBox.value = ''
+                ans = ans.concat('\n\n','You: ',this.state.message,'\n','DataBerry: ',resp.data.results[0].results[0].text);
                 
                 this.setState({
-                    answers : ans
+                    answers : ans,
+                    field: ''
                 })
             }).catch(function (error) {
             });
@@ -65,11 +74,12 @@ class Home extends Component {
                             <div className="text1">Ask your question in the box below!</div>
                         </div>
                         <div className="questionContainer">
-                            <input type="text" ref={this.questionBox} placeholder="Type your question here" value={this.state.value} onChange={this.handleChange} />
-                            <div className="sendButton" onClick={this.handleClick}>Send</div>
+                            <input className="questionBox" type="text" ref={this.questionBox} placeholder="Type your question here" value={this.state.field} onChange={this.handleChange} />
+                            <div className="buttonTimer sendButton" onClick={this.handleClick}>Send</div>
                         </div>
                         <div className="answerContainer">
-                            <textarea ref={this.textLog} value={this.state.answers} />
+                            <div className="display-linebreak">{this.state.answers}<div ref={el => { this.el = el; }} /></div>
+                            <div ref={this.messagesEndRef} />
                         </div>
                     </div>
                 </div>
