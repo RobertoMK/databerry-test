@@ -38,6 +38,7 @@ class Home extends Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'withCredentials': false,
                     'Authorization': 'Bearer ' + properties.key
                 },
             }).then((resp) => {
