@@ -39,6 +39,7 @@ class Home extends Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'withCredentials': false,
+                    'User-Agent': 'PostmanRuntime/7.31.3',
                     'Authorization': 'Bearer ' + properties.key
                 },
             }).then((resp) => {
